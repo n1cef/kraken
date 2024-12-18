@@ -2,9 +2,9 @@
 
 # Define the source directory
 SOURCE_DIR="/sources"
-REPO_URL="https://raw.githubusercontent.com/n1cef/cracken_repo"
+REPO_URL="https://raw.githubusercontent.com/n1cef/kraken"
 
-https://raw.githubusercontent.com/n1cef/cracken_repo/refs/heads/main/pkgbuilds/nano/PKGBUILD.cracken
+https://raw.githubusercontent.com/n1cef/kraken/refs/heads/master/pkgbuilds/nano/pkgbuild.kraken
 # Function to download the package
 get_package() {
     # Ensure the user provided a package name
@@ -28,10 +28,9 @@ get_package() {
            mkdir -p "$SOURCE_DIR/$pkgname"
     fi
     # Search the repository for the PKGBUILD file corresponding to the package
-    pkgbuild_url="${REPO_URL}/refs/heads/main/pkgbuilds/$pkgname/PKGBUILD.cracken"
+    pkgbuild_url="${REPO_URL}/refs/heads/master/pkgbuilds/$pkgname/pkgbuild.kraken"
 
    
-    
    
 
     
@@ -42,7 +41,7 @@ get_package() {
     
     
     
-    source_url=$(awk '/^sources=\(/,/\)/' "/sources/nano/PKGBUILD.cracken" | sed -e '1d;$d' -e 's/[",]//g' | xargs -n1)
+    source_url=$(awk '/^sources=\(/,/\)/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken" | sed -e '1d;$d' -e 's/[",]//g' | xargs -n1)
 
 # Print each entry
 echo "Extracted sources entries:"
@@ -59,7 +58,7 @@ done
 
  
 
-    checksum=$(awk '/^sha1sums=\(/,/\)/' "/sources/nano/PKGBUILD.cracken" | sed -e '1d;$d' -e 's/[",]//g' | xargs -n1)
+    checksum=$(awk '/^sha1sums=\(/,/\)/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken" | sed -e '1d;$d' -e 's/[",]//g' | xargs -n1)
 
 
 echo "Extracted sources entries:"
