@@ -148,14 +148,64 @@ echo "Package version is: $pkgver"
 
 
 }
+
+
 postinstall (){
 
+
+
 pkgname="$1"
+pkgver=$(awk -F '=' '/^pkgver=/ {print $2}' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
+echo "Package version is: $pkgver"
+
+
+    kraken_build_content=$(awk '/^kraken_build\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
+   echo "prepare contetnt is $kraken_build_content"
+    
+    eval "$kraken_build_content"
+    # Ensure the function is loaded in the shell
+    if ! declare -f kraken_build > /dev/null; then
+        echo "ERROR: Failed to load kraken_build function."
+        return 1
+    fi
+
+    # Execute the kraken_prepare function
+    if ! kraken_build; then
+        echo "ERROR: Failed to execute kraken_build for package $pkgname."
+        return 1
+    fi
+
+       echo "kraken_build executed successfully for package $pkgname."
+    return 0
+
 
 }
 
+
+
 preinstall (){
     pkgname="$1"
+    
+
+pkgname="$1"
+kraken_install_content=$(awk '/^kraken_install\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
+   echo "prepare contetnt is $kraken_install_content"
+    
+    eval "$kraken_preinstall_content"
+    # Ensure the function is loaded in the shell
+    if ! declare -f kraken_preinstall > /dev/null; then
+        echo "ERROR: Failed to load kraken_preinstall function."
+        return 1
+    fi
+
+    # Execute the kraken_prepare function
+    if ! kraken_preinstall; then
+        echo "ERROR: Failed to execute kraken_preinstall for package $pkgname."
+        return 1
+    fi
+
+       echo "kraken_preinstall executed successfully for package $pkgname. "
+    return 0
 }
 
 install (){
@@ -203,10 +253,16 @@ case $1 in
         ;;
     preinstall)
       preinstall $2
-      ;;    
+      ;;   
+    build )
+      build $2
+      ;;
+    postinstall)
+    postinstall $2
+     ;;     
 
     *)
-        echo "Usage: $0 {download|checkdeps|prepare|build|install|preinstall} <package_name>"
+        echo "Usage: $0 {download|checkdeps|prepare|build|install|preinstall|postinstall} <package_name>"
         exit 1
         ;;
 esac
