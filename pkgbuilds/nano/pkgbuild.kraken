@@ -28,29 +28,31 @@ kraken_prepare() {
 }
 
 kraken_build() {
-	cd "${build_dir}/${pkgname}-${pkgver}"
+	cd "${build_dir}/${pkgname}/${pkgname}-${pkgver}" &&
 	make
 }
 
 kraken_check() {
-	#cd "${build_dir}/${pkgname}-${pkgver}"
+	#cd "${build_dir}/${pkgname}/${pkgname}-${pkgver}" &&
 	#make check
-    return
+	echo "$pkgname does not come with a test suite nothing to do !"  
+    return 0
 }
 
 kraken_install() {
-	cd "${build_dir}/${pkgname}-${pkgver}"
-	#make DESTDIR="$fakeroot_dir" install
-    make install
+	cd "${build_dir}/${pkgname}/${pkgname}-${pkgver}" &&
+	make install
+    return 0
 }
 
 kraken_preinstall() {
-	return
+	echo "nothing to do !"
+	return 0
 }
 
 kraken_postinstall() {
     install -v -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-8.1
-	return
+	return 0 
 }
 
 kraken_preremove() {
