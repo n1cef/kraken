@@ -35,7 +35,7 @@ kraken_build() {
 
 kraken_test() {
 	#cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
-	make test
+	 sudo make test
 	   
     return 0
 }
