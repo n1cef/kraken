@@ -3,7 +3,6 @@
 # Define the source directory
 SOURCE_DIR="/sources"
 REPO_URL="https://raw.githubusercontent.com/n1cef/kraken"
- pkgname="$1"
 
 # Function to download the package
 get_package() {
@@ -71,50 +70,15 @@ get_package() {
 
 
 
-checkdeps(){
-
-pkgname="$1"
-deps=($(awk '/^dependencies=\(/,/\)/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken" | sed -e '1d;$d' -e 's/[",]//g' | xargs -n1))
-for ((i=0;i<${#deps[@]};i++)); do 
-  dep=${deps[$i]}
-  echo "dep $i is $dep"
-done  
-}
-
-prepare(){
-
-
-pkgname="$1"
-
-
-    kraken_prepare_content=$(awk '/^kraken_prepare\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
-   echo "prepare contetnt is $kraken_prepare_content"
-
-
-
-
-
-
-
-
-
-
-}
-
 case $1 in
     download)
         get_package $2
         ;;
-    checkdeps)
-         checkdeps $2
-         ;;
-    prepare)
-         prepare $2
-        ;;     
+    
 
 
     *)
-        echo "Usage: $0 {download|checkdeps|prepare|build|install} <package_name>"
+        echo "Usage: $0 {download|checkdep|prepare|build|install} <package_name>"
         exit 1
         ;;
 esac

@@ -11,13 +11,13 @@ sources=(
     "https://unifoundry.com/pub/unifont/unifont-15.1.05/font-builds/unifont-15.1.05.pcf.gz"
 )
 
-sha1sums=(
+md5sums=(
 	'60c564b1bdc39d8e43b3aab4bc0fb140',
     'da47e9c7a2cec3b68a0fad5d2a341dcc'
 )
 
 
-cracken_prepare() {
+krakenprepare() {
 	#tar -xf "${sources_dir}/${pkgname}-${pkgver}.tar.gz" -C "$build_dir"
 
 	#cd "${build_dir}/${pkgname}-${pkgver}"
@@ -28,37 +28,37 @@ cracken_prepare() {
             --docdir=/usr/share/doc/nano-8.1
 }
 
-cracken_build() {
+krakenbuild() {
 	cd "${build_dir}/${pkgname}-${pkgver}"
 	make
 }
 
-cracken_check() {
+krakencheck() {
 	#cd "${build_dir}/${pkgname}-${pkgver}"
 	#make check
     return
 }
 
-cracken_install() {
+krakeninstall() {
 	cd "${build_dir}/${pkgname}-${pkgver}"
 	#make DESTDIR="$fakeroot_dir" install
     make install
 }
 
-cracken_preinstall() {
+krakenpreinstall() {
 	return
 }
 
-cracken_postinstall() {
+krakenpostinstall() {
     install -v -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-8.1
 	return
 }
 
-cracken_preremove() {
+krakenpreremove() {
 	return
 }
 
-cracken_postremove() {
+krakenpostremove() {
 	return
 }
 
