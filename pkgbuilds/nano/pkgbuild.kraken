@@ -28,7 +28,7 @@ kraken_prepare() {
 }
 
 kraken_build() {
-	cd "${SOURCE_DIR}}/${pkgname}/${pkgname}-${pkgver}" &&
+	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
 	make
 }
 
