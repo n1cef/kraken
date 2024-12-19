@@ -18,7 +18,7 @@ md5sums=(
 
 
 kraken_prepare() {
-	tar -xf "${SOURCE_DIR}/$pkgname/${pkgname}-${pkgver}.tar.gz" -C "$SOURCE_DIR/"$pkgname &&
+	tar -xvf "${SOURCE_DIR}/$pkgname/${pkgname}-${pkgver}.tar.gz" -C "$SOURCE_DIR/"$pkgname &&
 
 	cd "${SOURCE_DIR}/${pkgname}-${pkgver}" &&
 
@@ -33,7 +33,7 @@ kraken_build() {
 	make
 }
 
-kraken_check() {
+kraken_test() {
 	#cd "${build_dir}/${pkgname}-${pkgver}"
 	#make check
     return

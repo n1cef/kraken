@@ -207,6 +207,42 @@ kraken_preinstall_content=$(awk '/^kraken_preinstall\(\) {/,/^}/' "$SOURCE_DIR/$
     return 0
 }
 
+test(){
+
+  pkgname="$1"
+pkgver=$(awk -F '=' '/^pkgver=/ {print $2}' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
+echo "Package version is: $pkgver"
+
+
+    kraken_test_content=$(awk '/^kraken_test\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
+   echo "prepare contetnt is $kraken_test_content"
+    
+    eval "$kraken_test_content"
+    # Ensure the function is loaded in the shell
+    if ! declare -f kraken_test > /dev/null; then
+        echo "ERROR: Failed to load kraken_test function."
+        return 1
+    fi
+
+    # Execute the kraken_prepare function
+    if ! kraken_test; then
+        echo "ERROR: Failed to execute kraken_test for package $pkgname."
+        return 1
+    fi
+
+       echo "kraken_test executed successfully for package $pkgname."
+    return 0
+
+
+
+
+
+
+
+
+
+}
+
 inst (){
 
 pkgname="$1"
@@ -259,8 +295,11 @@ case $1 in
       build $2
       ;;
     postinstall)
-    postinstall $2
-     ;;     
+     postinstall $2
+     ;;   
+    test)
+      test $2
+      ;;  
 
     *)
         echo "Usage: $0 {download|checkdeps|prepare|build|install|preinstall|postinstall} <package_name>"

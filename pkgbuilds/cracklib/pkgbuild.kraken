@@ -1,0 +1,77 @@
+
+pkgname=cracklib
+pkgver=2.10.2
+
+dependencies=(
+	"!$pkgname"
+	
+)
+sources=(
+	"https://github.com/cracklib/cracklib/releases/download/v2.10.2/cracklib-2.10.2.tar.xz",
+    "https://github.com/cracklib/cracklib/releases/download/v2.10.2/cracklib-words-2.10.2.xz"
+)
+
+md5sums=(
+	'a99e0aef4c677df7063624690b634988',
+    'f27804022dbf2682a7f7c353317f9a53'
+)
+
+
+kraken_prepare() {
+	
+	tar -xvf "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}.tar.xz" -C "${SOURCE_DIR}/${pkgname}" &&
+
+	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+
+	./configure --prefix=/usr    \
+            --disable-static \
+            --with-default-dict=/usr/lib/cracklib/pw_dict
+}
+
+kraken_build() {
+	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+	make
+}
+
+kraken_test() {
+	#cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+	make test
+	   
+    return 0
+}
+
+kraken_install() {
+	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+	make install
+    return 0
+}
+
+kraken_preinstall() {
+	echo "nothing to do !"
+	return 0
+}
+
+kraken_postinstall() {
+	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+    install -v -m644 -D    ../cracklib-words-2.10.2.xz \
+                         /usr/share/dict/cracklib-words.xz    &&
+
+unxz -v                  /usr/share/dict/cracklib-words.xz    &&
+ln -v -sf cracklib-words /usr/share/dict/words                &&
+echo $(hostname) >>      /usr/share/dict/cracklib-extra-words &&
+install -v -m755 -d      /usr/lib/cracklib                    &&
+
+create-cracklib-dict     /usr/share/dict/cracklib-words \
+                         /usr/share/dict/cracklib-extra-words
+	return 0 
+}
+
+kraken_preremove() {
+	return
+}
+
+kraken_postremove() {
+	return
+}
+
+# vim:set ts=4 syntax=sh:

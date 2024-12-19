@@ -32,7 +32,7 @@ kraken_build() {
 	make
 }
 
-kraken_check() {
+kraken_test() {
 	#cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
 	#make check
 	echo "$pkgname does not come with a test suite nothing to do !"  
