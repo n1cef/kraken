@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Define the source directory
+
 SOURCE_DIR="/sources"
 REPO_URL="https://raw.githubusercontent.com/n1cef/kraken"
 
-# Function to download the package
+
 get_package() {
-    # Ensure the user provided a package name
+   
     if [ -z "$1" ]; then
         echo "ERROR: You must specify a package name."
         return 1
     fi
 
-    # Package name passed by user
+   
     pkgname="$1"
     echo "Package name is $pkgname"
 
@@ -55,7 +55,7 @@ get_package() {
 
         # Calculate the checksum of the downloaded tarball
         downloaded_checksum=$(md5sum "$SOURCE_DIR/$pkgname/$tarball_name" | awk '{print $1}')
-
+         echo "$downloaded_checksum"
         echo "Checking checksum for $tarball_name..."
 
         # Check if the downloaded checksum matches the expected checksum

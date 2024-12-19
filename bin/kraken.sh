@@ -38,7 +38,7 @@ get_package() {
     source_urls=($(awk '/^sources=\(/,/\)/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken" | sed -e '1d;$d' -e 's/[",]//g' | xargs -n1))
 
     # Extract sha1sums from the PKGBUILD
-    checksums=($(awk '/^sha1sums=\(/,/\)/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken" | sed -e '1d;$d' -e 's/[",]//g' | xargs -n1))
+    checksums=($(awk '/^md5sums=\(/,/\)/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken" | sed -e '1d;$d' -e 's/[",]//g' | xargs -n1))
 
     echo "Extracted source entries:"
     for ((i=0; i<${#source_urls[@]}; i++)); do
@@ -56,7 +56,7 @@ get_package() {
 
         # Calculate the checksum of the downloaded tarball
         downloaded_checksum=$(md5sum "$SOURCE_DIR/$pkgname/$tarball_name" | awk '{print $1}')
-
+           echo "md5sum fo this is $downloaded_checksum"
         echo "Checking checksum for $tarball_name..."
 
         # Check if the downloaded checksum matches the expected checksum
@@ -85,12 +85,28 @@ prepare(){
 
 
 pkgname="$1"
+pkgver=$(awk -F '=' '/^pkgver=/ {print $2}' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
+echo "Package version is: $pkgver"
 
 
     kraken_prepare_content=$(awk '/^kraken_prepare\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
    echo "prepare contetnt is $kraken_prepare_content"
+    
+    eval "$kraken_prepare_content"
+    # Ensure the function is loaded in the shell
+    if ! declare -f kraken_prepare > /dev/null; then
+        echo "ERROR: Failed to load kraken_prepare function."
+        return 1
+    fi
 
+    # Execute the kraken_prepare function
+    if ! kraken_prepare; then
+        echo "ERROR: Failed to execute kraken_prepare for package $pkgname."
+        return 1
+    fi
 
+       echo "kraken_prepare executed successfully for package $pkgname."
+    return 0
 
 
 

@@ -17,7 +17,7 @@ md5sums=(
 
 kraken_prepare() {
 	
-	tar -xvf "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}.tar.gz" -C "${SOURCE_DIR}/${pkgname}" &&
+	tar -xvf "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}.tar.xz" -C "${SOURCE_DIR}/${pkgname}" &&
 
 	cd "${SOURCE_DIR}/${pkgname}-${pkgver}" &&
 
