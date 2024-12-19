@@ -17,26 +17,25 @@ md5sums=(
 
 kraken_prepare() {
 	
-	tar -xvf "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}.tar.xz" -C "${SOURCE_DIR}/${pkgname}" &&
-
-	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+	sudo tar -xvf "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}.tar.bz2" -C "${SOURCE_DIR}/${pkgname}" &&
+     
+	cd "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}" &&
 
 }
 
 kraken_build() {
-	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+	cd "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}" &&
 	make
 }
 
 kraken_test() {
-	#cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
-	#make check
+	
 	echo "$pkgname does not come with a test suite nothing to do !"  
     return 0
 }
 
 kraken_install() {
-	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+	cd "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}" &&
 	make PREFIX=/usr MANDIR=/usr/share/man install
     return 0
 }
