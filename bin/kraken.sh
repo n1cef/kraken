@@ -159,23 +159,23 @@ pkgver=$(awk -F '=' '/^pkgver=/ {print $2}' "$SOURCE_DIR/$pkgname/pkgbuild.krake
 echo "Package version is: $pkgver"
 
 
-    kraken_build_content=$(awk '/^kraken_build\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
-   echo "prepare contetnt is $kraken_build_content"
+    kraken_postinstall_content=$(awk '/^kraken_postinstall\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
+   echo "prepare contetnt is $kraken_postinstall_content"
     
-    eval "$kraken_build_content"
+    eval "$kraken_postinstall_content"
     # Ensure the function is loaded in the shell
-    if ! declare -f kraken_build > /dev/null; then
-        echo "ERROR: Failed to load kraken_build function."
+    if ! declare -f kraken_postinstall > /dev/null; then
+        echo "ERROR: Failed to load kraken_postinstall function."
         return 1
     fi
 
     # Execute the kraken_prepare function
-    if ! kraken_build; then
-        echo "ERROR: Failed to execute kraken_build for package $pkgname."
+    if ! kraken_postinstall; then
+        echo "ERROR: Failed to execute kraken_postinstall for package $pkgname."
         return 1
     fi
 
-       echo "kraken_build executed successfully for package $pkgname."
+       echo "kraken_postinstall executed successfully for package $pkgname."
     return 0
 
 
@@ -188,8 +188,8 @@ preinstall (){
     
 
 pkgname="$1"
-kraken_install_content=$(awk '/^kraken_install\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
-   echo "prepare contetnt is $kraken_install_content"
+kraken_preinstall_content=$(awk '/^kraken_preinstall\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
+   echo "prepare contetnt is $kraken_preinstall_content"
     
     eval "$kraken_preinstall_content"
     # Ensure the function is loaded in the shell
