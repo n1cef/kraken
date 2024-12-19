@@ -151,9 +151,7 @@ echo "Package version is: $pkgver"
 
 
 postinstall (){
-
-
-
+  
 pkgname="$1"
 pkgver=$(awk -F '=' '/^pkgver=/ {print $2}' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
 echo "Package version is: $pkgver"
@@ -177,6 +175,7 @@ echo "Package version is: $pkgver"
 
        echo "kraken_postinstall executed successfully for package $pkgname."
     return 0
+
 
 
 }
