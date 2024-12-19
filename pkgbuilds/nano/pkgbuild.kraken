@@ -15,7 +15,7 @@ md5sums=(
 )
 
 
-krakenprepare() {
+kraken_prepare() {
 	
 	tar -xvf "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}.tar.gz" -C "${SOURCE_DIR}/${pkgname}" &&
 
@@ -27,37 +27,37 @@ krakenprepare() {
             --docdir=/usr/share/doc/nano-8.1
 }
 
-krakenbuild() {
+kraken_build() {
 	cd "${build_dir}/${pkgname}-${pkgver}"
 	make
 }
 
-krakencheck() {
+kraken_check() {
 	#cd "${build_dir}/${pkgname}-${pkgver}"
 	#make check
     return
 }
 
-krakeninstall() {
+kraken_install() {
 	cd "${build_dir}/${pkgname}-${pkgver}"
 	#make DESTDIR="$fakeroot_dir" install
     make install
 }
 
-krakenpreinstall() {
+kraken_preinstall() {
 	return
 }
 
-krakenpostinstall() {
+kraken_postinstall() {
     install -v -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-8.1
 	return
 }
 
-krakenpreremove() {
+kraken_preremove() {
 	return
 }
 
-krakenpostremove() {
+kraken_postremove() {
 	return
 }
 
