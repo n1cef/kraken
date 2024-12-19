@@ -17,11 +17,14 @@ md5sums=(
 
 kraken_prepare() {
 	
-	sudo tar -xvf "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}.tar.bz2" -C "${SOURCE_DIR}/${pkgname}" &&
+	tar -xvf "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}.tar.bz2" -C "${SOURCE_DIR}/${pkgname}" &&
      
 	cd "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}" 
     return 0
 }
+
+
+
 
 kraken_build() {
 	cd "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}" &&
