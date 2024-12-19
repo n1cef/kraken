@@ -207,7 +207,7 @@ kraken_preinstall_content=$(awk '/^kraken_preinstall\(\) {/,/^}/' "$SOURCE_DIR/$
     return 0
 }
 
-install (){
+inst (){
 
 pkgname="$1"
 pkgver=$(awk -F '=' '/^pkgver=/ {print $2}' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
@@ -249,8 +249,8 @@ case $1 in
     prepare)
          prepare $2
         ;;     
-    install)
-        install $2
+    inst)
+        inst $2
         ;;
     preinstall)
       preinstall $2
