@@ -4,7 +4,7 @@ pkgver=4.6
 
 dependencies=(
 	"!$pkgname"
-	
+
 )
 sources=(
 	"https://downloads.sourceforge.net/joe-editor/joe-4.6.tar.gz"
@@ -32,7 +32,8 @@ kraken_build() {
 }
 
 kraken_test() {
-	
+	#cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
+	#make check
 	echo "$pkgname does not come with a test suite nothing to do !"  
     return 0
 }
@@ -50,7 +51,7 @@ kraken_preinstall() {
 
 kraken_postinstall() {
 	cd "${SOURCE_DIR}/${pkgname}/${pkgname}-${pkgver}" &&
-   install -vm 755 joe/util/{stringify,termidx,uniproc} /usr/bin
+    install -vm 755 joe/util/{stringify,termidx,uniproc} /usr/bin
 	return 0 
 }
 
