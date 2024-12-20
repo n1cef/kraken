@@ -38,6 +38,8 @@ kraken_test() {
 }
 
 kraken_install() {
+	metadata_dir="/var/lib/kraken/packages"
+metadata_file="$metadata_dir/${pkgname}-${pkgver}.kraken"
 	cd "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}" &&
 	make PREFIX=/usr MANDIR=/usr/share/man install | tee "$metadata_file"
     return 0
