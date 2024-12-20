@@ -248,6 +248,23 @@ inst (){
 pkgname="$1"
 pkgver=$(awk -F '=' '/^pkgver=/ {print $2}' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
 echo "Package version is: $pkgver"
+
+metadata_dir="/var/lib/kraken/packages"
+metadata_file="$metadata_dir/${pkgname}-${pkgver}.kraken"
+if [ ! -d "$metadata_dir" ]; then 
+ echo "creating $metadata_dir"
+ mkdir -p "$metadata_dir"
+ fi
+
+ if [ ! -f "$metadata_file" ]; then 
+ echo "creating $metadata_file"
+   touch  "$metadata_file"
+ fi
+ 
+  
+
+
+
 kraken_install_content=$(awk '/^kraken_install\(\) {/,/^}/' "$SOURCE_DIR/$pkgname/pkgbuild.kraken")
    echo "prepare contetnt is $kraken_install_content"
     
@@ -259,7 +276,7 @@ kraken_install_content=$(awk '/^kraken_install\(\) {/,/^}/' "$SOURCE_DIR/$pkgnam
     fi
 
     # Execute the kraken_prepare function
-    if ! kraken_install; then
+    if ! kraken_install ; then
         echo "ERROR: Failed to execute kraken_install for package $pkgname."
         return 1
     fi

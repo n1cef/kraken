@@ -39,7 +39,7 @@ kraken_test() {
 
 kraken_install() {
 	cd "${SOURCE_DIR}/${pkgname}/unix-${pkgname}-${pkgver}" &&
-	make PREFIX=/usr MANDIR=/usr/share/man install
+	make PREFIX=/usr MANDIR=/usr/share/man install | tee "$metadata_file"
     return 0
 }
 
